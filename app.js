@@ -9,12 +9,13 @@ const app = express();
 User.hasMany(Order);
 Order.belongsTo(User);
 
-// Order.belongsToMany(User, {
-//   through: { model: OrderDetail, sourceKey: "orderId", targetKey: "userId" }
-// });
-// User.belongsToMany(Order, {
-//   through: { model: OrderDetail, targetKey: "orderId", sourceKey: "userId" }
-// });
-Order.belongsToMany(User, { through: OrderDetail });
-User.belongsToMany(Order, { through: OrderDetail });
+Order.belongsToMany(Product, { through: OrderDetail });
+Product.belongsToMany(Order, { through: OrderDetail });
+
+Order.hasMany(OrderDetail);
+OrderDetail.belongsTo(Order);
+
+Product.hasMany(OrderDetail);
+OrderDetail.belongsTo(Product);
+
 module.exports = app;
