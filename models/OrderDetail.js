@@ -7,11 +7,11 @@ const OrderDetail = sequelize.define(
       primaryKey: true,
       autoIncrement: true
     },
-    userId: {
+    orderId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    orderId: {
+    productId: {
       type: DataTypes.INTEGER,
       allowNull: false
     }

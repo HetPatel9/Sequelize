@@ -14,6 +14,15 @@ const User = sequelize.define(
     email: {
       type: DataTypes.STRING,
       unique: true
+    },
+    phone: {
+      type: DataTypes.INTEGER,
+      validate: {
+        len: 10
+      }
+    },
+    address: {
+      type: DataTypes.TEXT
     }
   },
   {

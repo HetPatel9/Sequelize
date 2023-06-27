@@ -18,7 +18,7 @@ const Product = sequelize.define(
     description: {
       type: DataTypes.STRING,
       validate: {
-        len: [1, 20]
+        len: [1, 50]
       }
     }
   },

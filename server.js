@@ -1,7 +1,8 @@
 const app = require("./app");
+
 const { sequelize } = require("./DatabaseConnection");
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync().then(() => {
   console.log("database connected");
 });
 
