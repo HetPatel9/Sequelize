@@ -1,8 +1,8 @@
-const Order = require("./models/Order");
-const User = require("./models/User");
-const Product = require("./models/Product");
-const { sequelize } = require("./DatabaseConnection");
-const OrderDetail = require("./models/OrderDetail");
+const Order = require("../models/Order");
+const User = require("../models/User");
+const Product = require("../models/Product");
+const { sequelize } = require("../DatabaseConnection");
+const OrderDetail = require("../models/OrderDetail");
 
 const fetchAllUserOrder = async (req, res) => {
   try {

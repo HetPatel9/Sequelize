@@ -7,11 +7,11 @@
     "sequelize": "^6.32.1"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   },
   "name": "sql_practical",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "app.js",
   "author": "",
   "license": "ISC",
   "description": ""
