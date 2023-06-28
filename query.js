@@ -2,6 +2,7 @@ const Order = require("./models/Order");
 const User = require("./models/User");
 const Product = require("./models/Product");
 const { sequelize } = require("./DatabaseConnection");
+const OrderDetail = require("./models/OrderDetail");
 
 const fetchAllUserOrder = async (req, res) => {
   try {
@@ -22,6 +23,7 @@ const fetchAllUserOrder = async (req, res) => {
       attributes: [
         "id",
         "orderDate",
+        "deliveryDate",
         [
           sequelize.literal("DATEDIFF(deliveryDate,orderDate)"),
           "Expected_delivery_date"
@@ -103,9 +105,106 @@ const inactiveUsers = async (req, res) => {
   }
 };
 
+const recentOrders = async (req, res) => {
+  try {
+    const orders = await Order.findAll({
+      order: [["orderDate", "DESC"]],
+      limit: 5
+    });
+    res.status(200).json({
+      status: "success",
+      data: orders
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      err
+    });
+  }
+};
+
+const popularPorduct = async (req, res) => {
+  try {
+    const products = await OrderDetail.findAll({
+      group: "productId",
+      attributes: [
+        "productId",
+
+        [sequelize.fn("COUNT", sequelize.col("productId")), "Total_Sold"]
+      ],
+      include: { model: Product, attributes: ["name"] },
+      order: [["Total_Sold", "DESC"]],
+      limit: 5
+    });
+    res.status(200).json({
+      status: "success",
+      data: products
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      err
+    });
+  }
+};
+
+const mostExpensiveOrder = async (req, res) => {
+  try {
+    const expensiveOrder = await OrderDetail.findAll({
+      group: ["orderId"],
+      include: { model: Product, attributes: [] },
+      attributes: [
+        "orderId",
+        [sequelize.fn("SUM", sequelize.col("product.price")), "Bill_Amount"],
+        [sequelize.fn("COUNT", sequelize.col("productId")), "Total_Product"]
+      ],
+      order: [["Bill_Amount", "DESC"]],
+      limit: 1
+    });
+    res.status(200).json({
+      status: "success",
+      data: expensiveOrder
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      err
+    });
+  }
+};
+
+const mostCheapOrder = async (req, res) => {
+  try {
+    const expensiveOrder = await OrderDetail.findAll({
+      group: ["orderId"],
+      include: { model: Product, attributes: [] },
+      attributes: [
+        "orderId",
+        [sequelize.fn("SUM", sequelize.col("product.price")), "Bill_Amount"],
+        [sequelize.fn("COUNT", sequelize.col("productId")), "Total_Product"]
+      ],
+      order: [["Bill_Amount", "ASC"]],
+      limit: 1
+    });
+    res.status(200).json({
+      status: "success",
+      data: expensiveOrder
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      err
+    });
+  }
+};
+
 module.exports = {
   fetchAllUserOrder,
   undeliveredOrder,
   activeUsers,
-  inactiveUsers
+  inactiveUsers,
+  recentOrders,
+  popularPorduct,
+  mostExpensiveOrder,
+  mostCheapOrder
 };

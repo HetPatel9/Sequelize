@@ -35,5 +35,9 @@ app.get("/fetchAllUserOrder", queries.fetchAllUserOrder);
 app.get("/undeliveredOrder", queries.undeliveredOrder);
 app.get("/activeUsers", queries.activeUsers);
 app.get("/inactiveUsers", queries.inactiveUsers);
+app.get("/recentOrders", queries.recentOrders);
+app.get("/popularProducts", queries.popularPorduct);
+app.get("/mostExpensiveOrder", queries.mostExpensiveOrder);
+app.get("/mostCheapOrder", queries.mostCheapOrder);
 
 module.exports = app;
